@@ -1,3 +1,4 @@
+from unicodedata import name
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask.views import MethodView
@@ -86,7 +87,7 @@ class Video(Resource):
 		db.session.commit()
 		return ''
 
-api.add_resource(Video, '/video/<int:video_id>')
+api.add_resource(Video, '/videos/<int:video_id>')
 
 if __name__ == "__main__":
 	app.run(debug=True)
