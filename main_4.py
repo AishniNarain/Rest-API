@@ -18,7 +18,7 @@ class TodoModel(db.Model):
 resource_fields = {
     "id" : fields.Integer,
     "task" : fields.String,
-    "summary" : fields.is_indexable_but_not_string
+    "summary" : fields.String
 }
 
 # todos = {
@@ -49,7 +49,7 @@ class ToDo(Resource):
     def get(self,todo_id):
         task = TodoModel.query.filter_by(id=todo_id).first()
         if not task:
-            abort(409, message='Could not find task with that id')
+            abort(404, message='Could not find task with that id')
         return task
     
     @marshal_with(resource_fields)
@@ -79,7 +79,6 @@ class ToDo(Resource):
         db.session.commit()
         return task
     
-    @marshal_with(resource_fields)
     def delete(self, todo_id):
         task = TodoModel.query.filter_by(id=todo_id).first()
         db.session.delete(task)
